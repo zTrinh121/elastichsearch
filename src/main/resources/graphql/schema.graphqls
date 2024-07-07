@@ -1,0 +1,28 @@
+type Product {
+    id: ID!
+    name: String
+    description: String
+    quantity: Int
+    price: Float
+    created_at: String
+    updated_at: String
+}
+
+input ProductInput{
+    name: String
+    description: String
+    quantity: Int
+    price: Float
+}
+
+type Query{
+    findAll: [Product]!
+    findOne(id: ID):  Product
+    findByName(name: String!): [Product]!
+}
+
+type Mutation {
+    create(input: ProductInput ): Product
+    update(id: ID, input: ProductInput): Product
+    delete(id: ID): Product
+}

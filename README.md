@@ -5,43 +5,14 @@
     Invoke-RestMethod -Uri "http://localhost:9200/products" -Method Put -ContentType "application/json" -Body '{ "settings" : { "index" : { } }}' -Credential $cred
 - Sau đó chạy file bin/elasticsearch.bat
 
-- Tạo db product mysql
+- Tạo db product mysql ở file demodb_product.sql
 
 - Tải logstack
-- Trong config của logstack tạo 1 file product_config.conf với nội dung nhưu dưới
------------------
-input {
-    jdbc {
-        jdbc_driver_library => "your_path/logstash-conf/mysql-connector-j-8.0.31.jar"
-        jdbc_driver_class => "com.mysql.cj.jdbc.Driver"
-        jdbc_connection_string => "jdbc:mysql://localhost:3306/demodb"
-        jdbc_user => "your_username"
-        jdbc_password => "your_password"
-        statement => "SELECT * FROM demodb.product"
-        use_column_value => true
-        tracking_column => "created_at"
-        schedule => "*/1 * * * *"
-    }
-}
+- Trong config của logstack tạo 1 file product_config.conf với nội dung như trong file  product_config.conf trong github
 
-filter {
-    mutate {
-	copy => { "id" => "{metadata}{_id}"}
-        remove_field => ["@version"]
-    }
-}
-
-output {
-    elasticsearch {
-        hosts => ["http://localhost:9200"]  # Use HTTP instead of HTTPS
-        index => "product"
-        user => "your_user_elasticsearch"
-        password => "your_password_elastichsearch"
-        ssl => false  # Use `ssl => false` to explicitly disable SSL
-    }
-}
-
-----------------
 - Mở cmd của logstash/bin chạy lệnh: logstash -f .\config\product_config.conf --config.reload.automatic
     + Với .\config\product_config.conf: là đường dẫn tới file
+- Chạy dự án và test, có thể test bằng 2 cách
+	+ C1: Dùng postman và test http://localhost:9200/product/ có hoạt động không
+ 	+ C2: Dùng Graphql và test query findAll có hoạt động không
 

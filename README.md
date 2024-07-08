@@ -1,6 +1,6 @@
 * Tải elastich search
 - Mở config/elasticsearch.yml để config lại:![image](https://github.com/zTrinh121/elastichsearch/assets/137372274/f48e87a6-e69f-4872-896d-7b42a309b8b8)
-- Mở cmd trong bin vào tạo view tên "product":
+- Mở cmd trong bin vào tạo view tên "product" bằng lệnh: 
     $cred = Get-Credential
     Invoke-RestMethod -Uri "http://localhost:9200/products" -Method Put -ContentType "application/json" -Body '{ "settings" : { "index" : { } }}' -Credential $cred
 - Sau đó chạy file bin/elasticsearch.bat
